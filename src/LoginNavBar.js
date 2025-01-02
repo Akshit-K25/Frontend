@@ -86,17 +86,13 @@ const LoginNavBar = () => {
   // Update role-specific menu (UPDATED)
   useEffect(() => {
     if (user) {
-        console.log('Current user:', user);
-        const role = (user.role || 'USER').toUpperCase();
-        console.log('Determined role:', role);
-        console.log('Available role menus:', roleMenuConfigurations);
+        const role = user.role?.toUpperCase() || 'USER';
+        console.log('Current user role:', role);
         
-        const menus = roleMenuConfigurations[role];
-        if (menus) {
-            console.log('Setting menus for role:', role, menus);
-            setRoleMenus(menus);
+        if (roleMenuConfigurations[role]) {
+            setRoleMenus(roleMenuConfigurations[role]);
         } else {
-            console.log('Falling back to USER menus');
+            console.warn(`No menu configuration found for role: ${role}`);
             setRoleMenus(roleMenuConfigurations['USER']);
         }
     }

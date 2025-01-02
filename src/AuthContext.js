@@ -66,17 +66,27 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (userData) => {
     try {
-      const normalizedUser = normalizeUserData(userData);
-      console.log('[AuthContext] Logging in user:', normalizedUser);
-      
-      setUser(normalizedUser);
-      setIsAuthenticated(true);
-      sessionStorage.setItem('user', JSON.stringify(normalizedUser));
-      
-      return normalizedUser;
+        // Ensure we get the role from the database
+        const normalizedUser = {
+            ...userData,
+            role: userData.role?.toUpperCase() || 'USER',
+            roles: [userData.role?.toUpperCase() || 'USER']
+        };
+        
+        console.log('[AuthContext] Logging in user:', normalizedUser);
+        
+        if (userData.token) {
+            sessionStorage.setItem('token', userData.token);
+        }
+        
+        setUser(normalizedUser);
+        setIsAuthenticated(true);
+        sessionStorage.setItem('user', JSON.stringify(normalizedUser));
+        
+        return normalizedUser;
     } catch (error) {
-      console.error('[AuthContext] Login error:', error);
-      throw new Error('Failed to process login');
+        console.error('[AuthContext] Login error:', error);
+        throw new Error('Failed to process login');
     }
   };
 

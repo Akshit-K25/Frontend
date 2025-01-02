@@ -9,7 +9,9 @@ import RegistrationPage from "./RegistrationPage";
 import HomeAccessPage from "./HomeAccessPage";
 import ProtectedRoute from "./ProtectedRoute";
 import { AuthProvider } from "./AuthContext";
-import AdminDashboard from "./AdminDashboard"; // Import AdminDashboard
+import AdminDashboard from "./AdminDashboard";
+import Events from "./Events";
+import ViewEvent from "./ViewEvent";
 
 function App() {
   const clearSessionAndRedirect = () => {
@@ -47,6 +49,9 @@ function App() {
 
             {/* Logout Route */}
             <Route path="/logout" element={clearSessionAndRedirect()} />
+
+            <Route path="/events" element={<Events />} />
+            <Route path="/events/:id" element={<ViewEvent />} />
 
             {/* Error Routes */}
             <Route path="/not-found" element={<PageNotFound />} />
