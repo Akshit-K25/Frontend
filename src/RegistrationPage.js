@@ -76,52 +76,50 @@ const RegistrationPage = () => {
     setIsRegistering(true);
     setError("");
 
-    if (
-      !name.trim() ||
-      !phone.trim() ||
-      !gender ||
-      !designation.trim() ||
-      !organisation.trim() ||
-      !address.trim()
-    ) {
-      setError("All fields are required");
-      setIsRegistering(false);
-      return;
+    if (!name.trim() || !phone.trim() || !gender || !designation.trim() || 
+        !organisation.trim() || !address.trim()) {
+        setError("All fields are required");
+        setIsRegistering(false);
+        return;
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/registration/register",
-        {
-          email,
-          token,
-          name: name.trim(),
-          phone: phone.trim(),
-          gender,
-          designation: designation.trim(),
-          organisation: organisation.trim(),
-          address: address.trim(),
+        const response = await axios.post(
+            "http://localhost:8080/api/registration/register",
+            {
+                email,
+                token,
+                name: name.trim(),
+                phone: phone.trim(),
+                gender,
+                designation: designation.trim(),
+                organisation: organisation.trim(),
+                address: address.trim(),
+            }
+        );
+
+        console.log("Registration response:", response.data);
+
+        if (response.data) {
+            login({
+                email: response.data.email,
+                name: response.data.name,
+                role: response.data.role
+            });
+
+            setStatus("Registration successful!");
+            
+            // Short delay before navigation
+            setTimeout(() => {
+                navigate('/');
+            }, 1000);
         }
-      );
-
-      login({
-        email: email,
-        name: name.trim()
-      });
-
-      console.log("Response from registration:", response.data);
-
-      setStatus("Registration successful!");
-      
-      setTimeout(() => {
-        navigate('/');
-      }, 1000);
-
     } catch (err) {
-      setError(err.response?.data || "Registration failed");
-      setIsRegistering(false);
+        console.error("Registration error:", err);
+        setError(err.response?.data || "Registration failed. Please try again.");
+        setIsRegistering(false);
     }
-  };
+};
 
   if (!isLinkValid) {
     return (

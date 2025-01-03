@@ -9,7 +9,6 @@ import RegistrationPage from "./RegistrationPage";
 import HomeAccessPage from "./HomeAccessPage";
 import ProtectedRoute from "./ProtectedRoute";
 import { AuthProvider } from "./AuthContext";
-import AdminDashboard from "./AdminDashboard";
 import Events from "./Events";
 import ViewEvent from "./ViewEvent";
 
@@ -36,14 +35,6 @@ function App() {
                 <ProtectedRoute>
                   <HomePage />
                 </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/dashboard"
-              element={
-              <ProtectedRoute requiresAdmin={true}>
-                <AdminDashboard />
-              </ProtectedRoute>
               }
             />
 
